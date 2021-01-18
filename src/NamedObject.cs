@@ -10,16 +10,18 @@ namespace GradeBook
             Name = name;
         }
 
+        private string name;
+
         public string Name
         {
             get
             {
-                return Name;
+                return name;
             }
             set
             {
                 if (!string.IsNullOrEmpty(value))
-                    Name = value;
+                    name = value;
                 else
                 {
                     throw new ArgumentException("Invalid value for book.Name");
