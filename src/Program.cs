@@ -8,16 +8,16 @@ namespace GradeBook
         static void Main(string[] args)
         {
             var book = new InMemoryBook("The Gradebook");
-            // book.GradeAdded += OnGradeAdded;
+            book.GradeAdded += OnGradeAdded;
 
-            // string input;
+            string input;
 
             Console.WriteLine("Please enter the grade:");
 
-            // input = EnterGrades(book);
+            input = EnterGrades(book);
         }
 
-        static string EnterGrades(InMemoryBook book)
+        static string EnterGrades(IBook book)
         {
             string input;
             do
@@ -44,27 +44,27 @@ namespace GradeBook
                 {
                     char letter = input.ToUpper().ToCharArray()[0];
 
-                    // switch (letter)
-                    // {
-                    //     case 'A':
-                    //         book.AddGrade(letter);
-                    //         break;
-                    //     case 'B':
-                    //         book.AddGrade(letter);
-                    //         break;
-                    //     case 'C':
-                    //         book.AddGrade(letter);
-                    //         break;
-                    //     case 'D':
-                    //         book.AddGrade(letter);
-                    //         break;
-                    //     case 'Q':
-                    //         book.ShowStats();
-                    //         break;
-                    //     default:
-                    //         Console.WriteLine("Invalid input. Try again:");
-                    //         break;
-                    // }
+                    switch (letter)
+                    {
+                        case 'A':
+                            book.AddGrade(letter);
+                            break;
+                        case 'B':
+                            book.AddGrade(letter);
+                            break;
+                        case 'C':
+                            book.AddGrade(letter);
+                            break;
+                        case 'D':
+                            book.AddGrade(letter);
+                            break;
+                        case 'Q':
+                            book.ShowStats();
+                            break;
+                        default:
+                            Console.WriteLine("Invalid input. Try again:");
+                            break;
+                    }
                 }
 
             } while (!input.Equals("q"));

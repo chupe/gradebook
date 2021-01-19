@@ -5,14 +5,31 @@ namespace GradeBook
 {
     public delegate void GradeAddedDelegate(object sender, EventArgs args);
 
-    public abstract class Book : NamedObject
+    public interface IBook
+    {
+        void AddGrade(double grade);
+        void ShowStats();
+        Stats GetStats();
+        string Name { get; }
+        event GradeAddedDelegate GradeAdded;
+    }
+
+    public abstract class Book : NamedObject, IBook
     {
         protected Book(string name) : base(name)
         {
         }
 
-        // public abstract void AddGrade(double grade);
-        // public abstract void ShowStats();
+        public virtual event GradeAddedDelegate GradeAdded;
+
+        public abstract void AddGrade(double grade);
+
+        public virtual Stats GetStats()
+        {
+            throw new NotImplementedException();
+        }
+
+        public abstract void ShowStats();
     }
 
     public class InMemoryBook : Book
@@ -30,7 +47,7 @@ namespace GradeBook
             return grades;
         }
 
-        public void AddLetterGrade(char letter)
+        public void AddGrade(char letter)
         {
             switch (letter)
             {
@@ -52,7 +69,7 @@ namespace GradeBook
             }
         }
 
-        public void AddGrade(double grade)
+        public override void AddGrade(double grade)
         {
             if (grade <= 100 && grade >= 0)
             {
@@ -68,9 +85,9 @@ namespace GradeBook
             }
         }
 
-        public event GradeAddedDelegate GradeAdded;
+        public override event GradeAddedDelegate GradeAdded;
 
-        public Stats GetStats()
+        public override Stats GetStats()
         {
             var result = new Stats();
             result.High = double.MinValue;
@@ -109,11 +126,11 @@ namespace GradeBook
             return result;
         }
 
-        public void ShowStats()
+        public override void ShowStats()
         {
             var result = GetStats();
 
-            Console.WriteLine($"/////////////////////////////////");
+            Console.WriteLine($"----------{this.Name}----------");
             Console.WriteLine($"The average {result.Average:N2}");
             Console.WriteLine($"Lowest grade: {result.Low}");
             Console.WriteLine($"Highest grade: {result.High}");
@@ -127,7 +144,7 @@ namespace GradeBook
             }
 
             Console.WriteLine($"{showGrades}");
-            Console.WriteLine($"/////////////////////////////////");
+            Console.WriteLine($"----------------------------------");
         }
     }
 }
