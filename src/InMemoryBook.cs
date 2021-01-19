@@ -3,35 +3,6 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
-    public delegate void GradeAddedDelegate(object sender, EventArgs args);
-
-    public interface IBook
-    {
-        void AddGrade(double grade);
-        void ShowStats();
-        Stats GetStats();
-        string Name { get; }
-        event GradeAddedDelegate GradeAdded;
-    }
-
-    public abstract class Book : NamedObject, IBook
-    {
-        protected Book(string name) : base(name)
-        {
-        }
-
-        public virtual event GradeAddedDelegate GradeAdded;
-
-        public abstract void AddGrade(double grade);
-
-        public virtual Stats GetStats()
-        {
-            throw new NotImplementedException();
-        }
-
-        public abstract void ShowStats();
-    }
-
     public class InMemoryBook : Book
     {
         public InMemoryBook(string name) : base(name)
@@ -47,20 +18,21 @@ namespace GradeBook
             return grades;
         }
 
-        public void AddGrade(char letter)
+        public override void AddGrade(string letter)
         {
+
             switch (letter)
             {
-                case 'A':
+                case "A":
                     AddGrade(90);
                     break;
-                case 'B':
+                case "B":
                     AddGrade(80);
                     break;
-                case 'C':
+                case "C":
                     AddGrade(70);
                     break;
-                case 'D':
+                case "D":
                     AddGrade(60);
                     break;
                 default:

@@ -44,7 +44,7 @@ namespace GradeBook.Tests
         {
             //Given
             var book = new InMemoryBook("The TestBook");
-            var testGrades = new List<char>() { 'A', 'B', 'C', 'D' };
+            var testGrades = Stats.ValidGrades;
 
             //When
             foreach (var grade in testGrades)

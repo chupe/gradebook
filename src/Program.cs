@@ -7,14 +7,17 @@ namespace GradeBook
     {
         static void Main(string[] args)
         {
-            var book = new InMemoryBook("The Gradebook");
-            book.GradeAdded += OnGradeAdded;
+            // var book = new InMemoryBook("The Memory Book");
+            // book.GradeAdded += OnGradeAdded;
+
+            var diskBook = new DiskBook("The Disk Book");
+            diskBook.GradeAdded += OnGradeAdded;
 
             string input;
 
             Console.WriteLine("Please enter the grade:");
 
-            input = EnterGrades(book);
+            input = EnterGrades(diskBook);
         }
 
         static string EnterGrades(IBook book)
@@ -42,23 +45,15 @@ namespace GradeBook
                 }
                 else if (input.Length == 1)
                 {
-                    char letter = input.ToUpper().ToCharArray()[0];
+                    string letter = input.Substring(0, 1);
+                    letter = letter.ToUpper();
 
                     switch (letter)
                     {
-                        case 'A':
+                        case var grade when Stats.ValidGrades.Contains(grade):
                             book.AddGrade(letter);
                             break;
-                        case 'B':
-                            book.AddGrade(letter);
-                            break;
-                        case 'C':
-                            book.AddGrade(letter);
-                            break;
-                        case 'D':
-                            book.AddGrade(letter);
-                            break;
-                        case 'Q':
+                        case "Q":
                             book.ShowStats();
                             break;
                         default:

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace GradeBook
 {
     public class Stats
@@ -6,5 +8,6 @@ namespace GradeBook
         public double Low;
         public double High;
         public char Letter;
+        public static List<string> ValidGrades = new List<string>(){ "A", "B", "C", "D" };
     }
 }
