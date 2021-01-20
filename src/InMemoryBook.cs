@@ -7,19 +7,19 @@ namespace GradeBook
     {
         public InMemoryBook(string name) : base(name)
         {
-            grades = new List<double>();
-            Name = name;
+            Grades = new List<double>();
         }
 
-        private List<double> grades;
-
-        public List<double> GetGrades()
+        public override List<double> Grades
         {
-            return grades;
+            get;
+            set;
         }
 
-        public override void AddGrade(string letter)
+        public override void AddGrade(string grade)
         {
+            string letter = grade.Substring(0, 1);
+            letter = letter.ToUpper();
 
             switch (letter)
             {
@@ -36,8 +36,7 @@ namespace GradeBook
                     AddGrade(60);
                     break;
                 default:
-                    AddGrade(0);
-                    break;
+                    throw new ArgumentException($"Invalid {nameof(grade)}");
             }
         }
 
@@ -45,7 +44,7 @@ namespace GradeBook
         {
             if (grade <= 100 && grade >= 0)
             {
-                grades.Add(grade);
+                Grades.Add(grade);
                 if (GradeAdded != null)
                 {
                     GradeAdded(this, new EventArgs());
@@ -58,65 +57,5 @@ namespace GradeBook
         }
 
         public override event GradeAddedDelegate GradeAdded;
-
-        public override Stats GetStats()
-        {
-            var result = new Stats();
-            result.High = double.MinValue;
-            result.Low = double.MaxValue;
-
-            double sum = 0.0;
-
-            foreach (double grade in grades)
-            {
-                result.Low = Math.Min(grade, result.Low);
-                result.High = Math.Max(grade, result.High);
-                sum += grade;
-            }
-
-            result.Average = sum / grades.Count;
-
-            switch (result.Average)
-            {
-                case var d when d >= 90.0:
-                    result.Letter = 'A';
-                    break;
-                case var d when d >= 80.0:
-                    result.Letter = 'B';
-                    break;
-                case var d when d >= 70.0:
-                    result.Letter = 'C';
-                    break;
-                case var d when d >= 60.0:
-                    result.Letter = 'D';
-                    break;
-                default:
-                    result.Letter = 'F';
-                    break;
-            }
-
-            return result;
-        }
-
-        public override void ShowStats()
-        {
-            var result = GetStats();
-
-            Console.WriteLine($"----------{this.Name}----------");
-            Console.WriteLine($"The average {result.Average:N2}");
-            Console.WriteLine($"Lowest grade: {result.Low}");
-            Console.WriteLine($"Highest grade: {result.High}");
-            Console.WriteLine($"Letter grade: {result.Letter}");
-
-            string showGrades = "The grades are: ";
-
-            foreach (var grade in grades)
-            {
-                showGrades = String.Concat(showGrades, grade.ToString(), ", ");
-            }
-
-            Console.WriteLine($"{showGrades}");
-            Console.WriteLine($"----------------------------------");
-        }
     }
 }

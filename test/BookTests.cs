@@ -35,7 +35,7 @@ namespace GradeBook.Tests
                 book.AddGrade(grade);
 
                 //Then
-                Assert.Contains(grade, book.GetGrades());
+                Assert.Contains(grade, book.Grades);
             }
         }
 
@@ -53,10 +53,10 @@ namespace GradeBook.Tests
             }
 
             //Then
-            Assert.Contains(90, book.GetGrades());
-            Assert.Contains(80, book.GetGrades());
-            Assert.Contains(70, book.GetGrades());
-            Assert.Contains(60, book.GetGrades());
+            Assert.Contains(90, book.Grades);
+            Assert.Contains(80, book.Grades);
+            Assert.Contains(70, book.Grades);
+            Assert.Contains(60, book.Grades);
         }
 
         [Fact]

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace GradeBook
 {
@@ -11,6 +12,7 @@ namespace GradeBook
         void ShowStats();
         Stats GetStats();
         string Name { get; }
+        List<double> Grades { get; set;}
         event GradeAddedDelegate GradeAdded;
     }
 
@@ -20,17 +22,23 @@ namespace GradeBook
         {
         }
 
-        public virtual event GradeAddedDelegate GradeAdded;
+        public abstract List<double> Grades { get; set;}
+
+        public abstract event GradeAddedDelegate GradeAdded;
 
         public abstract void AddGrade(double grade);
 
         public abstract void AddGrade(string letter);
 
-        public virtual Stats GetStats()
+        public Stats GetStats()
         {
-            throw new NotImplementedException();
+            var stats = new Stats(this);
+            return stats;
         }
 
-        public abstract void ShowStats();
+        public void ShowStats()
+        {
+            GetStats().ShowStats();
+        }
     }
 }
